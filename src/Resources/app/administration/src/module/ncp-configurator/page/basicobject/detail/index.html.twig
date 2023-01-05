@@ -1,0 +1,63 @@
+<sw-page class="configurator-basicobject-detail">
+    <template slot="smart-bar-header">
+        <h2>Objekt - Detail</h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :disabled="isLoading" @click="onBack">
+            Zurück
+        </sw-button>
+
+        <sw-button variant="primary" :disabled="isLoading" @click="onSave">
+            Speichern
+        </sw-button>
+    </template>
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card
+                    v-if="item"
+                    :title="$tc('Objekt')"
+                    :isLoading="isLoading">
+
+                {#                <sw-text-field #}
+                {#                        v-if="item.class" #}
+                {#                        :label="$tc('Classesname')" #}
+                {#                        required #}
+                {#                        v-model="item.class.name"> #}
+                {#                </sw-text-field> #}
+
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.idCls"
+                                    :inheritedValue="item.idCls"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.idCls"
+                                                 entity="ncp_configurator_class"
+                                                 :v-model="item.idCls"
+                                                 :label="$tc('Class')"
+                                                 id="idCls"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+
+                <sw-text-field
+                        :label="$tc('Objektname')"
+                        required
+                        v-model="item.name">
+                </sw-text-field>
+
+                <sw-text-field
+                        :label="$tc('Objekttitel')"
+                        required
+                        v-model="item.title">
+                </sw-text-field>
+
+            </sw-card>
+        </sw-card-view>
+    </template>
+
+</sw-page>

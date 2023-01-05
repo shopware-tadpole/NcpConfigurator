@@ -1,0 +1,82 @@
+<sw-page class="configurator-basic-detail">
+    <template slot="smart-bar-header">
+        <h2>Objektverbindung - Detail</h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :disabled="isLoading" @click="onBack">
+            Zurück
+        </sw-button>
+
+        <sw-button variant="primary" :disabled="isLoading" @click="onSave">
+            Speichern
+        </sw-button>
+    </template>
+
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card
+                    v-if="item"
+                    :title="$tc('Objektverbindung')"
+                    :isLoading="isLoading">
+
+                {#                <sw-text-field #}
+                {#                        :label="$tc('Classesverbindung')" #}
+                {#                        required #}
+                {#                        v-model="item.classCon.name"> #}
+                {#                </sw-text-field> #}
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.classCon.id"
+                                    :inheritedValue="item.classCon.id"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.classCon.id"
+                                                 entity="ncp_configurator_classcon"
+                                                 :v-model="item.idClsCon"
+                                                 :label="$tc('Classesverbindung')"
+                                                 id="idClsCon"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.idObjFrom"
+                                    :inheritedValue="item.idObjFrom"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.idObjFrom"
+                                                 entity="ncp_configurator_object"
+                                                 :v-model="item.idObjFrom"
+                                                 :label="$tc('von Objekt')"
+                                                 id="idObjFrom"
+                                                 :criteria="criteriaObjFrom"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.idObjTo"
+                                    :inheritedValue="item.idObjTo"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.idObjTo"
+                                                 entity="ncp_configurator_object"
+                                                 :v-model="item.idObjTo"
+                                                 :label="$tc('nach Objekt')"
+                                                 id="idObjTo"
+                                                 :criteria="criteriaObjTo"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+            </sw-card>
+        </sw-card-view>
+    </template>
+
+</sw-page>

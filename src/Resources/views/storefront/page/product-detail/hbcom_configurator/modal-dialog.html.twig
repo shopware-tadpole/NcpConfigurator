@@ -1,0 +1,27 @@
+<section class="configurator-form">
+
+    <div class="product-detail-tabs">
+        <div class="card card-tabs">
+
+            <div class="product-configurator-tabs-content">
+                <div class="tab-content">
+                    <div class="tab-pane fade show " id="tab-pane-dimension" role="tabpanel" aria-labelledby="tab-3">
+                        {% include('storefront/page/product-detail/ncp_configurator/select-dimension.html.twig') %}
+                    </div>
+
+                    <div class="tab-pane fade show " id="tab-pane-summary" role="tabpanel"
+                         aria-labelledby="tab-5">
+                        {% include('storefront/page/product-detail/ncp_configurator/info-product.html.twig') %}
+                        {% include('storefront/page/product-detail/ncp_configurator/info-projectgroup.html.twig') %}
+
+                        {% include('storefront/page/product-detail/ncp_configurator/summary.html.twig') %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    {% include('storefront/page/product-detail/ncp_configurator/modal-dialog.js') %}
+</script>

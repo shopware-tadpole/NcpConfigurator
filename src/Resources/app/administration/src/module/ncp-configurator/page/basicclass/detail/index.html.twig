@@ -1,0 +1,33 @@
+<sw-page class="configurator-basic-detail">
+
+    <template slot="smart-bar-header">
+        <h2>Klasse - Detail</h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :disabled="isLoading" @click="onBack">
+            Zurück
+        </sw-button>
+
+        <sw-button variant="primary" :disabled="isLoading" @click="onSave">
+            Speichern
+        </sw-button>
+    </template>
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card
+                    v-if="item"
+                    :title="$tc('Class')"
+                    :isLoading="isLoading">
+                <sw-text-field
+                        :label="$tc('Classesname')"
+                        required
+                        v-model="item.name">
+                    {{ item.name }}
+                </sw-text-field>
+            </sw-card>
+        </sw-card-view>
+    </template>
+
+</sw-page>

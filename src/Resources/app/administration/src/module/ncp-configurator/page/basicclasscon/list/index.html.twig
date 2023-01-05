@@ -1,0 +1,68 @@
+{% block ncp_configurator_basicclasson_list %}
+    <sw-page class="configurator-basicclasscon-list">
+
+        <template slot="smart-bar-header">
+            <h2>Classesverbindungen</h2>
+        </template>
+
+        <template slot="search-bar">
+            <sw-search-bar initialSearchType="configurator"
+                           :initialSearch="term"
+                           typeSearchAlwaysInContainer
+                           ref="searchBar"
+                           @search="onSearch">
+            </sw-search-bar>
+        </template>
+
+        <template slot="smart-bar-actions">
+            <sw-button :routerLink="{ name: 'ncp.configurator.basicclassconcreate' }" variant="primary">
+                Neu
+            </sw-button>
+        </template>
+
+        <template slot="content">
+            {% block ncp_configurator_basicclasscon_list_content %}
+                <sw-entity-listing
+                        v-if="items"
+                        :items="items"
+                        :repository="repository"
+                        :showSelection="false"
+                        :columns="columns"
+                        detailRoute="ncp.configurator.basicclasscondetail">
+
+                    <template slot="column-name" slot-scope="{ item }">
+                        <div class="ncp-configurator-text_ellipsis">
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicclasscondetail', params: { id: item.id } }"> #}
+                            {#                                {{ item.name }} #}
+                            {#                            </router-link> #}
+                            {{ item.name }}
+                        </div>
+                    </template>
+
+                    <template slot="column-clsFromName" slot-scope="{ item }">
+                        <div class="ncp-configurator-text_ellipsis">
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicclassdetail', params: { id: item.idClsFrom } }"> #}
+                            {#                                {{ item.clsFrom.name }} #}
+                            {#                            </router-link> #}
+                            {{ item.clsFrom.name }}
+                        </div>
+                    </template>
+
+                    <template slot="column-clsToName" slot-scope="{ item }">
+                        <div class="ncp-configurator-text_ellipsis">
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicclassdetail', params: { id: item.idClsTo } }"> #}
+                            {#                                {{ item.clsTo.name }} #}
+                            {#                            </router-link> #}
+                            {{ item.clsTo.name }}
+                        </div>
+                    </template>
+
+                </sw-entity-listing>
+            {% endblock %}
+        </template>
+
+    </sw-page>
+{% endblock %}

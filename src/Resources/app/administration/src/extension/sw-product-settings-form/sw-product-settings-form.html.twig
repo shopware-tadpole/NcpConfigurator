@@ -1,0 +1,55 @@
+{% block sw_product_settings_form_content %}
+    {% parent %}
+
+    <label>Konfigurator</label>
+
+    <sw-container
+            v-if="!isLoading"
+            columns="repeat(auto-fit, minmax(250px, 1fr)" gap="0px 30px">
+        <sw-field
+                type="select"
+                name="sw-field--product-ProjectGroup"
+                :value="idObjProjectGroup"
+                @change="onChangeProjectGroup">
+            <option
+                    v-for="ProjectGroup in ProjectGroups"
+                    :key="ProjectGroup.id"
+                    :value="ProjectGroup.id"
+                    :selected="idObjProjectGroup === ProjectGroup.id"
+            >
+                {{ ProjectGroup.title }}
+            </option>
+        </sw-field>
+    </sw-container>
+
+
+    <sw-label size="default" appearance="default" :ghost="false" :caps="false" :dismissable="true">
+        Alternative Längenbegrenzungen
+    </sw-label>
+
+    <sw-container v-if="criteriaVariantsFromProjectGroup"
+                  columns="repeat(auto-fit, minmax(250px, 1fr)" gap="0px 30px">
+
+        <sw-number-field
+                v-model="value_min"
+                :min="0"
+                :max="10000"
+                :label="$tc('Min')"
+                @change="updateDimensionMin">
+        </sw-number-field>
+
+        <sw-number-field
+                v-model="value_max"
+                :min="0"
+                :max="10000"
+                :label="$tc('Max')"
+                @change="updateDimensionMax">
+        </sw-number-field>
+
+        <sw-button :disabled="false" :square="false" :block="false" :isLoading="false" @click="deleteDimensions">
+            Löschen
+        </sw-button>
+
+    </sw-container>
+
+{% endblock %}

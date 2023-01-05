@@ -1,0 +1,65 @@
+<sw-page class="configurator-basicclasscon-detail">
+
+    <template slot="smart-bar-header">
+        <h2>Classesverbindung - Detail</h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :disabled="isLoading" @click="onBack">
+            Zurück
+        </sw-button>
+
+        <sw-button variant="primary" :disabled="isLoading" @click="onSave">
+            Speichern
+        </sw-button>
+    </template>
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card
+                    v-if="item"
+                    :title="$tc('Classesverbindung')"
+                    :isLoading="isLoading">
+
+                <sw-text-field
+                        :label="$tc('Name')"
+                        required
+                        v-model="item.name">
+                    {{ item.name }}
+                </sw-text-field>
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.idClsFrom"
+                                    :inheritedValue="item.idClsFrom"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.idClsFrom"
+                                                 entity="ncp_configurator_class"
+                                                 :v-model="item.idClsFrom"
+                                                 :label="$tc('Von Class')"
+                                                 id="idClsFrom"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+                <sw-inherit-wrapper v-if="!isLoading"
+                                    v-model="item.idClsTo"
+                                    :inheritedValue="item.idClsTo"
+                                    isAssociation>
+                    <template #content="{ currentValue, isInherited, updateCurrentValue }">
+                        <sw-entity-single-select :value="item.idClsTo"
+                                                 entity="ncp_configurator_class"
+                                                 :v-model="item.idClsTo"
+                                                 :label="$tc('Nach Class')"
+                                                 id="idClsTo"
+                                                 @change="updateCurrentValue">
+                        </sw-entity-single-select>
+                    </template>
+                </sw-inherit-wrapper>
+
+            </sw-card>
+        </sw-card-view>
+    </template>
+
+</sw-page>

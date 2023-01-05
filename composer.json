@@ -1,0 +1,28 @@
+{
+  "name": "ncp/configurator",
+  "description": "Configurator",
+  "type": "shopware-platform-plugin",
+  "version": "1.3.2",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "ncp\\Configurator\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "ncp\\Configurator\\ncpConfigurator",
+    "label": {
+      "de-DE": "Konfigurator",
+      "en-GB": "Configurator"
+    },
+    "description": {
+      "de-DE": "Konfigurator für alle Entities",
+      "en-GB": "Configurator for all entities"
+    }
+  },
+  "require": {
+    "shopware/core": "6.4.*",
+    "shopware/administration": "*",
+    "shopware/storefront": "*"
+  }
+}

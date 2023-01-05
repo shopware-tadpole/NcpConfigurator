@@ -1,0 +1,72 @@
+{% block ncp_configurator_basic_object_list %}
+    <sw-page class="configurator-basic-list">
+
+        <template slot="smart-bar-header">
+            <h2>Objekte</h2>
+        </template>
+
+        <template slot="search-bar">
+            <sw-search-bar initialSearchType="configurator"
+                           :initialSearch="term"
+                           typeSearchAlwaysInContainer
+                           ref="searchBar"
+                           @search="onSearch">
+            </sw-search-bar>
+        </template>
+
+        <template slot="smart-bar-actions">
+            <sw-button :routerLink="{ name: 'ncp.configurator.basicobjectcreate' }" variant="primary">
+                Neu
+            </sw-button>
+        </template>
+
+        <template slot="content">
+            {% block ncp_configurator_basic_list_content %}
+                <sw-entity-listing
+                        v-if="items"
+                        :items="items"
+                        :repository="repository"
+                        :showSelection="false"
+                        :columns="columns"
+                        detailRoute="ncp.configurator.basicobjectdetail">
+
+                    <template slot="column-class" slot-scope="{ item }">
+                        <template
+                                {#                                v-if="item.idCls" #}
+                        >
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicclassdetail', params: { id: item.idCls } }"> #}
+                            {#                                {{ item.class.name }} #}
+                            {#                            </router-link> #}
+                            {{ item.class.name }}
+                        </template>
+                    </template>
+
+                    <template slot="column-name" slot-scope="{ item }">
+                        <div class="ncp-configurator-text_ellipsis">
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicobjectdetail', params: { id: item.id } }"> #}
+                            {#                                {{ item.name }} #}
+                            {#                            </router-link> #}
+                            {{ item.name }}
+                        </div>
+                    </template>
+
+                    <template slot="column-title" slot-scope="{ item }">
+                        <template
+                                {#                                v-if="item.idCls" #}
+                        >
+                            {#                            <router-link #}
+                            {#                                    :to="{ name: 'ncp.configurator.basicclassdetail', params: { id: item.idCls } }"> #}
+                            {#                                {{ item.class.title }} #}
+                            {#                            </router-link> #}
+                            {{ item.title }}
+                        </template>
+                    </template>
+
+                </sw-entity-listing>
+            {% endblock %}
+        </template>
+
+    </sw-page>
+{% endblock %}

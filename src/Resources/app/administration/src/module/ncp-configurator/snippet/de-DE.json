@@ -1,0 +1,9 @@
+{
+  "ncp-configurator": {
+    "general": {
+      "navigation": "Konfigurator (nav)",
+      "moduleTitle": "Konfigurator (title)",
+      "moduleDescription": "Konfigurator (desc)"
+    }
+  }
+}

@@ -1,0 +1,204 @@
+<div class="configurator-content-wrapper">
+    <h2 class="configurator-content-title">Balkonmaße eingeben</h2>
+    {# todo: link to aufmassblatt in neuen Tab #}
+    <div class="download-aufmassblatt">
+        <a href="#" class="btn btn-outline-primary">Wie messe ich aus? (PDF)</a>
+    </div>
+
+    <div class="configurator-messure-wrapper">
+        {% set unit = 'mm' %}
+
+        {% if 'Balcony railings' in page.product.extensions.ncp_configurator.ProjectGroupsame %}
+            {% for nameBalcony railingstyp in page.product.extensions.ncp_configurator.arrBalcony railingstyp %}
+                {% set keyMinMax = "Balcony railingstyp:" ~ nameBalcony railingstyp %}
+
+                {% set idBalcony railingstypDimensionGroup = "Balcony railingstypDimensionGroup_" ~ nameBalcony railingstyp %}
+                <div id="{{ idBalcony railingstypDimensionGroup }}"
+                     class="Balcony railingstyp_dimension_group {{ idBalcony railingstypDimensionGroup }}">
+
+                    {% for keyMinmaxDimension, minmaxDimension in page.product.extensions.ncp_configurator.arrDimensionMinMaxValues[keyMinMax] %}
+
+                        <div class="configurator-messure-slide {{ keyMinmaxDimension }}">
+                            {% set idBalcony railingstypDimensionGroupItem = keyMinmaxDimension ~ "_" ~ nameBalcony railingstyp %}
+
+                            <label for="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                                   class="label-range-slider has-tooltip">
+
+                                {# {{ keyMinmaxDimension }} #}
+
+                                {# todo: refaktorieren! #}
+                                {% if keyMinmaxDimension === "Length" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[0] }}
+                                {% elseif keyMinmaxDimension === "Depth1" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[1] }}
+                                {% elseif keyMinmaxDimension === "Depth2" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[2] }}
+                                {% elseif keyMinmaxDimension === "TopEdgeFloorPanel" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[3] }}
+                                {% elseif keyMinmaxDimension === "EdgeFloorPanel" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[4] }}
+                                {% elseif keyMinmaxDimension === "HeightBasePlate" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[5] }}
+                                {% endif %}
+
+
+                                <span class="min-max-info">({{ minmaxDimension.value_min|number_format(0, ',', '') }} - {{ minmaxDimension.value_max|number_format(0, ',', '') }} {{ unit }})</span>
+                                {# todo: trigger tooltip info bei hover #}
+                                <span class="help-tooltip"
+                                      data-toggle="tooltip"
+                                      data-trigger="hover"
+                                      data-placement="top"
+                                      data-offset="0, 10"
+                                      data-html="true"
+                                      title="<span class='caption'>todo: Bild oder Text für Maßangabe {{ keyMinmaxDimension }}</span>">?</span>
+                                </span>
+                            </label>
+                            <div class="range-slider-outer">
+                                <input type="range"
+                                       id="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                                       min="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                       max="{{ minmaxDimension.value_max|number_format(0, ',', '') }}"
+                                       step="{{ minmaxDimension.value_delta|number_format(0, ',', '') }}"
+                                       value="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                       data-input-target="{{ idBalcony railingstypDimensionGroupItem }}"
+                                       onchange="onChangeSlider(this.id);"
+                                       oninput="onChangeSlider(this.id);">
+                                <div class="input-with-unit">
+                                    <input type="number"
+                                           id="{{ idBalcony railingstypDimensionGroupItem }}"
+                                           class="dimension"
+                                           min="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                           max="{{ minmaxDimension.value_max|number_format(0, ',', '') }}"
+                                           step="{{ minmaxDimension.value_delta|number_format(0, ',', '') }}"
+                                           value="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                           data-slider-target="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                                           onchange="onChangeInput(this.id);"
+                                            {# onkeyup="onKeyup(this.id);" #}
+                                           onfocusout="onFocusOut(this.id);"
+                                            {% if minmaxDimension.value_delta > 1 %}
+                                                disabled
+                                            {% endif %}
+                                    >
+                                    <span class="unit">{{ unit }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            {% set keyMinMax = "ProjectGroup:" ~ page.product.extensions.ncp_configurator.ProjectGroupsame %}
+            <div>
+                {% for keyMinmaxDimension, minmaxDimension in page.product.extensions.ncp_configurator.arrDimensionMinMaxValues[keyMinMax] %}
+                    <div class="configurator-messure-slide">
+                        {% set idBalcony railingstypDimensionGroupItem = keyMinmaxDimension %}
+                        <label for="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                               class="label-range-slider has-tooltip">
+
+                            {# {{ keyMinmaxDimension }} #}
+
+                            {# todo: refaktorieren! #}
+                            {#                            {% if keyMinmaxDimension === "Length" %} #}
+                            {#                                {{ page.product.extensions.ncp_configurator.arrDimensionTitle[0] }} #}
+                            {#                            {% elseif keyMinmaxDimension === "Depth1" %} #}
+                            {#                                {{ page.product.extensions.ncp_configurator.arrDimensionTitle[1] }} #}
+                            {#                            {% elseif keyMinmaxDimension === "Depth2" %} #}
+                            {#                                {{ page.product.extensions.ncp_configurator.arrDimensionTitle[2] }} #}
+                            {#                            {% endif %} #}
+
+                            {% if "windowGrid" in page.product.extensions.ncp_configurator.ProjectGroupsame %}
+                                {% if keyMinmaxDimension === "Height" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[0] }}
+                                {% elseif keyMinmaxDimension === "Width" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[1] }}
+                                {% endif %}
+                            {% else %}
+                                {% if keyMinmaxDimension === "Height" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[0] }}
+                                {% elseif keyMinmaxDimension === "Length" %}
+                                    {{ page.product.extensions.ncp_configurator.arrDimensionTitle[1] }}
+                                {% endif %}
+                            {% endif %}
+
+                            <span class="min-max-info">({{ minmaxDimension.value_min|number_format(0, ',', '') }} - {{ minmaxDimension.value_max|number_format(0, ',', '') }} {{ unit }})</span>
+                            {# todo: trigger tooltip info bei hover #}
+                            <span class="help-tooltip"
+                                  data-toggle="tooltip"
+                                  data-trigger="hover"
+                                  data-placement="top"
+                                  data-offset="0, 10"
+                                  data-html="true"
+                                  title="<span class='caption'>todo: Bild oder Text für Maßangabe {{ keyMinmaxDimension }}</span>">?</span>
+                            </span>
+                        </label>
+                        <input type="range"
+                               id="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                               min="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                               max="{{ minmaxDimension.value_max|number_format(0, ',', '') }}"
+                               step="{{ minmaxDimension.value_delta|number_format(0, ',', '') }}"
+                               value="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                               data-input-target="{{ idBalcony railingstypDimensionGroupItem }}"
+                               onchange="onChangeSlider(this.id);"
+                               oninput="onChangeSlider(this.id);">
+                        <div class="input-with-unit">
+                            <input type="number"
+                                   id="{{ idBalcony railingstypDimensionGroupItem }}"
+                                   class="dimension"
+                                   min="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                   max="{{ minmaxDimension.value_max|number_format(0, ',', '') }}"
+                                   step="{{ minmaxDimension.value_delta|number_format(0, ',', '') }}"
+                                   value="{{ minmaxDimension.value_min|number_format(0, ',', '') }}"
+                                   data-slider-target="{{ idBalcony railingstypDimensionGroupItem }}_slider"
+                                   onchange="onChangeInput(this.id);"
+                                    {# onkeyup="onKeyup(this.id);" #}
+                                   onfocusout="onFocusOut(this.id);"
+                                    {% if minmaxDimension.value_delta > 1 %}
+                                        disabled
+                                    {% endif %}
+                            >
+                            <span class="unit">{{ unit }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="configurator-modal-nav">
+        <button id="btnModalPrev" type="button"
+                class="btn btn-outline-primary back btn-lg has-icon is-icon-left"
+                {% if 'Balcony railings' in page.product.extensions.ncp_configurator.ProjectGroupsame %}
+                    onclick="gotoTab('tab-pane-calconyType')"
+                {% else %}
+                    onclick="gotoTab('tab-pane-fastening')"
+                {% endif %}
+        >
+            {% sw_icon 'arrow-bogner-left' style {'pack':'bogner'} %}
+            Zurück
+        </button>
+        <button type="button"
+                class="btn btn-secondary btn-lg has-icon is-icon-right"
+                onclick="onClickWeiterdimension()">
+            Weiter
+            {% sw_icon 'arrow-bogner-right' style {'pack':'bogner'} %}
+        </button>
+    </div>
+
+    <div class="configurator-modal-prev-next-nav">
+        <button type="button"
+                {% if page.product.extensions.ncp_configurator.ProjectGroupsame === 'Balcony railings' %}
+                    onclick="gotoTab('tab-pane-calconyType')"
+                {% else %}
+                    onclick="gotoTab('tab-pane-fastening')"
+                {% endif %}
+                class="configurator-nav-arrow prev">
+            {% sw_icon 'arrow-slider-prev' style {'pack':'bogner'} %}
+        </button>
+        <button type="button"
+                onclick="gotoTab('tab-pane-Variants')"
+                class="configurator-nav-arrow next">
+            {% sw_icon 'arrow-slider-next' style {'pack':'bogner'} %}
+        </button>
+    </div>
+
+</div>

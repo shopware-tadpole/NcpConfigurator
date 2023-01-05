@@ -1,0 +1,10 @@
+{% sw_extends '@views/storefront/layout/footer/footer.html.twig' %}
+
+{% block layout_footer_navigation_columns %}
+    {{ parent() }}
+    {% if page.footer.extensions.showInStorefront %}
+        <h3>NcpKonfigurator aktiv</h3>
+    {% else %}
+        <h3>NcpKonfigurator NICHT aktiv!</h3>
+    {% endif %}
+{% endblock %}

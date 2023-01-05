@@ -1,0 +1,170 @@
+<div class="configurator-content-wrapper">
+    <h2 class="configurator-content-title">Konfiguration abschließen</h2>
+
+    {% set product = page.product %}
+    {% set unit = 'mm' %}
+
+    <div class="configurator-summary-wrapper">
+        <form
+                id="productDetailPageBuyProductForm_Configurator"
+                action="{{ path('frontend.detail.save', {productId: page.product.id }) }}"
+                method="post"
+                data-add-configurator-to-cart="true"
+                data-finish-url="/ncp/configurator/finish"
+                class="buy-widget">
+            <input type="hidden" id="submitProjectGroup" name="submitProjectGroup">
+
+            {# >> Konfiguration #}
+            <div class="configurator-summary">
+                <div class="configurator-summary-block">
+                    <div class="configurator-summary-block-info">
+                        <div class="configurator-summary-block-label">
+                            Modell
+                        </div>
+                        <div class="configurator-summary-block-value">
+                            {{ product.translated.name }}
+                        </div>
+                    </div>
+                    <div class="configurator-summary-block-action">
+                    </div>
+                </div>
+
+                <div class="configurator-summary-block">
+                    <div class="configurator-summary-block-info">
+                        <div class="configurator-summary-block-label">
+                            Dimensionen
+                        </div>
+
+                        <div class="configurator-summary-block-value">
+                            {% for keyDimension, nameDimension in page.product.extensions.ncp_configurator.arrDimension %}
+                                <div class="configurator-summary-dimension"
+                                     id="configurator-summary-dimension-{{ nameDimension }}">
+                                    <label for="submitDimension_{{ nameDimension }}">{{ page.product.extensions.ncp_configurator.arrDimensionTitle[keyDimension] }}</label>
+                                    <div class="input-wrap">
+                                        <input id="submitDimension_{{ nameDimension }}"
+                                               name="submitDimension_{{ nameDimension }}"
+                                               class="configurator-summary-value"
+                                               type="hidden" readonly>
+                                        <span class="input-value-info"
+                                              data-input-el="submitDimension_{{ nameDimension }}"></span>
+                                        <span class="unit">{{ unit }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            <input id="submitTotalLength"
+                                   name="submitTotalLength"
+                                   class="configurator-summary-value"
+                                   type="hidden" readonly>
+                        </div>
+                    </div>
+                    <div class="configurator-summary-block-action">
+                        <a href="#tab-pane-dimension" class="btn btn-grey">Ändern</a>
+                    </div>
+                </div>
+                <div class="configurator-summary-block">
+                    <div class="configurator-summary-block-info">
+                        <div class="configurator-summary-block-label">
+                            Ausführung
+                        </div>
+                        <div class="configurator-summary-block-value">
+                            <input type="hidden" id="submitVariants"
+                                   name="submitVariants"
+                                   class="configurator-summary-value" readonly>
+                            <span class="input-value-info" data-input-el="submitVariants"></span>
+                        </div>
+                    </div>
+                    <div class="configurator-summary-block-action">
+                        <a href="#tab-pane-Variants" class="btn btn-grey">Ändern</a>
+                    </div>
+                </div>
+
+                <div class="configurator-summary-buybox">
+                    <div class="configurator-summary-block-label">
+                        Total
+                        <span class="small-text">inkl. MwSt. zzgl. <a href="#">Versand</a></span>
+                    </div>
+                    <div class="configurator-summary-buybox-action">
+                        <div class="configurator-summary-buybox-total">
+                            <input id="submitTotal"
+                                   name="submitTotal"
+                                   class="configurator-summary-value"
+                                   type="hidden"
+                                   readonly>
+                            <span class="input-value-info" data-input-el="submitTotal"></span> <span
+                                    class="currency">€</span>
+                        </div>
+
+                        <div class="product-configurator-quantity">
+                            <select name="lineItems[{{ product.id }}][quantity]"
+                                    class="{{ formSelectClass }} product-configurator-quantity-select"
+                                    onchange="setConfiguratedQuantity(this);">
+                                {% for quantity in range(product.minPurchase, product.calculatedMaxPurchase, product.purchaseSteps) %}
+                                    <option value="{{ quantity }}">
+                                        {{ quantity }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <input type="hidden"
+                               name="productId"
+                               value="{{ product.id }}">
+                        <input type="hidden"
+                               name="configuratedQuantity"
+                               id="configuratedQuantity"
+                               value="1">
+                        <input type="hidden"
+                               name="redirectTo"
+                               value="frontend.detail.page">
+                        <input type="hidden"
+                               name="redirectParameters"
+                               data-redirect-parameters="true"
+                               value='{"productId": "{{ product.id }}"}'>
+                        <input type="hidden"
+                               name="lineItems[{{ product.id }}][id]"
+                               value="{{ product.id }}">
+                        <input type="hidden"
+                               name="lineItems[{{ product.id }}][type]"
+                               value="product">
+                        <input type="hidden"
+                               name="lineItems[{{ product.id }}][referencedId]"
+                               value="{{ product.id }}">
+                        <input type="hidden"
+                               name="lineItems[{{ product.id }}][stackable]"
+                               value="1">
+                        <input type="hidden"
+                               name="lineItems[{{ product.id }}][removable]"
+                               value="1">
+                        <input type="hidden"
+                               name="product-name"
+                               value="{{ product.translated.name }}">
+                        <input type="hidden"
+                               name="brand-name"
+                               value="{{ product.manufacturer.getName() }}">
+
+                        {{ sw_csrf('frontend.detail.save') }}
+
+                        <button class="btn btn-secondary btn-buy"
+                                title="{{ "detail.addProduct"|trans|striptags }}"
+                                aria-label="{{ "detail.addProduct"|trans|striptags }}">
+                            {{ "detail.addProduct"|trans|sw_sanitize }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {# << Konfiguration #}
+        </form>
+        <div class="configurator-modal-prev-next-nav">
+            <button type="button"
+                    onclick="gotoTab('tab-pane-Variants')"
+                    class="configurator-nav-arrow prev">
+                {% sw_icon 'arrow-slider-prev' style {'pack':'bogner'} %}
+            </button>
+            <button type="button"
+                    class="configurator-nav-arrow disabled next">
+                {% sw_icon 'arrow-slider-next' style {'pack':'bogner'} %}
+            </button>
+        </div>
+    </div>
+</div>

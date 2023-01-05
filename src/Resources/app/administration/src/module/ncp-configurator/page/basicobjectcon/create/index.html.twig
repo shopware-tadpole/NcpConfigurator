@@ -1,0 +1,115 @@
+<sw-page class="configurator-basic-detail">
+    <template slot="smart-bar-header">
+        <h2>Objektverbindungen - Neu</h2>
+    </template>
+
+    <template slot="smart-bar-actions">
+        <sw-button variant="primary" :disabled="isLoading" @click="onBack">
+            Zurück
+        </sw-button>
+
+        <sw-button variant="primary" :disabled="isLoading" @click="onSave">
+            Speichern
+        </sw-button>
+    </template>
+
+
+    <template slot="content">
+
+        <sw-card-view>
+            <sw-card
+                    :title="$tc('Objektverbindung')">
+
+                <sw-entity-single-select
+                        v-model="item.idClsCon"
+                        entity="ncp_configurator_classcon"
+                        label="Classesverbindung"
+                        @change="onChangeClassCon">
+
+                    <template #result-item="{ item, index }">
+                        <slot name="result-item" v-bind="{ item, index }">
+                            <li is="sw-select-result" v-bind="{ item, index }">
+                                {{ item.name }}
+                            </li>
+                        </slot>
+                    </template>
+                </sw-entity-single-select>
+
+
+                <sw-entity-single-select
+                        v-if="isClassConSelected"
+                        v-model="item.idObjFrom"
+                        entity="ncp_configurator_object"
+                        :criteria="criteriaObjFrom"
+                        label="Von Objekt"
+                        {# @change="onChangeObjFrom" #}
+                >
+
+                    <template #result-item="{ item, index }">
+                        <slot name="result-item" v-bind="{ item, index }">
+                            <li is="sw-select-result" v-bind="{ item, index }">
+                                {{ item.name }}
+                            </li>
+                        </slot>
+                    </template>
+                </sw-entity-single-select>
+
+                {# Hinweis: Auskommentiert, SingleSelect geht #}
+                <sw-entity-single-select
+                        v-if="isClassConSelected"
+                        v-model="item.idObjTo"
+                        entity="ncp_configurator_object"
+                        :criteria="criteriaObjTo"
+                        label="Nach Objekt"
+                        {#                        @change="onChangeObjTo" #}
+                >
+
+                    <template #result-item="{ item, index }">
+                        <slot name="result-item" v-bind="{ item, index }">
+                            <li is="sw-select-result" v-bind="{ item, index }">
+                                {{ item.name }}
+                            </li>
+                        </slot>
+                    </template>
+                </sw-entity-single-select>
+
+
+                {#                <sw-inherit-wrapper v-if="!isLoading" #}
+                {#                                    v-model="item.idObjFrom" #}
+                {#                                    :inheritedValue="item.idObjFrom" #}
+                {#                                    isAssociation> #}
+                {#                    <template #content="{ currentValue, isInherited, updateCurrentValue }"> #}
+                {#                        <sw-entity-single-select :value="item.idObjFrom" #}
+                {#                                                 entity="ncp_configurator_object" #}
+                {#                                                 :v-model="item.idObjFrom" #}
+                {#                                                 :label="$tc('von Objekt')" #}
+                {#                                                 id="idObjFrom" #}
+                {#                                                 @change="updateCurrentValue" #}
+                {#                                                 v-if="isClassConSelected && isObjFromSelected" #}
+                {#                        > #}
+                {#                        </sw-entity-single-select> #}
+                {#                    </template> #}
+                {#                </sw-inherit-wrapper> #}
+
+
+                {#                {% block ncp_basicobjectcon_object_to_multi_select %} #}
+                {#                    <div> #}
+                {#                        {% block a %} #}
+                {#                            <sw-entity-multi-id-select #}
+                {#                                    v-if="isClassConSelected && isObjFromSelected" #}
+                {#                                    :label="$t('von Objekten')" #}
+                {#                                    :repository="repositoryObject" #}
+                {#                                    :criteria="criteriaObjTo" #}
+                {#                                    :entityCollection="idToObjectsSelectedNew" #}
+                {#                                    v-model="idToObjectsSelectedNew" #}
+                {#                            > #}
+                {#                            </sw-entity-multi-id-select> #}
+                {#                        {% endblock %} #}
+                {#                    </div> #}
+                {#                {% endblock %} #}
+
+            </sw-card>
+        </sw-card-view>
+    </template>
+
+</sw-page>
