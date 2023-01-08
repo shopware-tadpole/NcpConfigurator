@@ -14,10 +14,15 @@ Another invisible truth automatically joined it: A connection between these two 
 After adding more objects, I realized that I only needed four tables to describe any kind of complex, intertwined information! My code suddenly reduced to a handful of functions for data access and components for the front end. Individual additional information per class could be added as additional fields in the object table or defined as an external table if needed.
 
 The four tables:
+
 Class: ID, Name, {Description}
+
 ClassConnection: ID, ClassFrom, ClassTo, Name, {Description}
+
 Object: ID, class, name, {additional fields}
+
 ObjectConnections: ID, ObjectFrom, ObjectTo, {additional fields}
+
 
 This simplified structure made it possible to describe any object and its relationships with other objects. The code became simple and easy to understand, and the system was able to meet any kind of requirements without becoming too complex.
 
