@@ -7,7 +7,7 @@ use ncp\Configurator\Struct\StructConfigurator;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Content\Product\Aggregate\ProductMedia\ProductMediaCollection;
 use Shopware\Core\Content\Product\Events\ProductListingResultEvent;
-use Shopware\Core\Content\Product\productsvents;
+use Shopware\Core\Content\Product\ProductEvents;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -78,7 +78,7 @@ class Frontend implements EventSubscriberInterface
     {
         return [
             ProductPageLoadedEvent::class => 'onProductPageLoaded',
-            productsvents::PRODUCT_LOADED_EVENT => 'onProductLoaded',
+            ProductEvents::PRODUCT_LOADED_EVENT => 'onProductLoaded',
         ];
     }
 
